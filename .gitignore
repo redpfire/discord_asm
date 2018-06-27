@@ -1,0 +1,14 @@
+
+# build files
+bin
+bin/*
+out.o
+
+# test files
+*test*
+
+# token
+token.txt
+
+# joe backup files
+*.*~
