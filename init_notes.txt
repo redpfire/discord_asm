@@ -1,0 +1,3 @@
+
+  Please fill the file `token.txt` with your bot token :)
+

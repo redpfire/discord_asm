@@ -6,6 +6,9 @@ all: clean
 init:
 	sudo apt install libcurl4-openssl-dev
 	mkdir -p bin
+	touch token.txt
+	clear
+	more init_notes.txt
 
 clean:
 	rm -f out.o
