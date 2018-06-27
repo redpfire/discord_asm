@@ -10,6 +10,8 @@
   welcome:    .asciz "Welcome to discord-asm!\nPerforming test call to fetch test channel\n"
   rest:       .asciz "https://discordapp.com/api/v6/%s"
   _test:      .asciz "channels/442744713607643147"
+  _test_gid:  .asciz "guild_id"
+  _parson_test:.asciz "Guild Id from parson: %s\n"
   _got:       .asciz "GET: %s\n"
   _discord_h: .asciz "Authorization: Bot %s"
   _discord_ag:.asciz "DiscordBot (discord_asm/0.1)"
@@ -23,6 +25,7 @@
   .lcomm _d_h, 200
   .lcomm _http_headers, 8
   .lcomm _url, 128
+  .lcomm _tmp_json_ptr, 8
 
 .section .text
 
@@ -60,14 +63,26 @@
     xor %rax, %rax
     call curl_easy_setopt
     ret
+  _test_parson:
+    # rdi - string pointer
+    call json_parse_string
+    mov %rax, %rdi
+    xor %rax, %rax
+    call json_value_get_object
+    mov $_tmp_json_ptr, %rcx
+    mov %rax, (%rcx)
+    mov $_test_gid, %rsi
+    mov %rax, %rdi
+    xor %rax, %rax
+    call json_object_get_string
+    mov %rax, %rsi
+    mov $_parson_test, %rdi
+    xor %rax, %rax
+    call printf
+    ret
   _curl_write_callback:
     xor %rax, %rax
-    mov %rdi, %rsi
-    xor %rdx, %rdx
-    mov $_got, %rdi
-    call printf
-    imul %rsi, %rdx
-    mov %rdx, %rax
+    call _test_parson
     ret
   _init_curl:
     xor %rdi, %rdi

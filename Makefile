@@ -1,7 +1,7 @@
 
 all: clean
 	as -gstabs -o out.o main.S
-	gcc -g -no-pie -m64 -lc -lcurl -o bin/main out.o
+	gcc -g -no-pie -m64 -lc -lcurl -o bin/main out.o parson.o
 
 init:
 	sudo apt install libcurl4-openssl-dev
